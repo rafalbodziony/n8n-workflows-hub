@@ -1,0 +1,292 @@
+{
+  "name": "__ErrorHandlerSMSApi",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Informacje\n\n[Dokumentacja SMS API](https://www.smsapi.pl/docs/#2-pojedynczy-sms)",
+        "height": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -208
+      ],
+      "id": "bd030c6d-7a60-4db0-870d-7e1aaaa49b71",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        128
+      ],
+      "id": "a2d92900-d3a0-4d86-8021-81bd8a443dfc",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e46cee73-f478-4eef-883a-bab2fa6527e3",
+              "name": "level",
+              "value": "={{ $json.execution.error?.level?.slice(0,4).toUpperCase() || 'CRIT' }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9c046-c10b-4265-8ec3-7b30f56f04ac",
+              "name": "wfId",
+              "value": "={{ $json.workflow.id ?? 'NA' }}",
+              "type": "string"
+            },
+            {
+              "id": "714b4785-4280-4884-8e37-3f2c68d478b1",
+              "name": "wfName",
+              "value": "={{ ($json.workflow?.name ?? 'NA').slice(0, 40) }}",
+              "type": "string"
+            },
+            {
+              "id": "b9fa697f-421f-44c4-8335-289b64e975b0",
+              "name": "execId",
+              "value": "={{ $json.execution.id ?? 'NA' }}",
+              "type": "string"
+            },
+            {
+              "id": "ed480887-a576-4eda-aad6-e6db85cc16df",
+              "name": "err",
+              "value": "={{ ($json.execution.error?.message ?? 'blad').replace(/[^\\x00-\\x7F]/g, '').slice(0, 50) }}",
+              "type": "string"
+            },
+            {
+              "id": "c8aacfe9-82df-4beb-8b7c-2812b0d3df28",
+              "name": "fromName",
+              "value": "n8nError",
+              "type": "string"
+            },
+            {
+              "id": "ec094ba5-c55d-48e5-9e8e-2607990fcc7b",
+              "name": "toPhone",
+              "value": "48123456789",
+              "type": "string"
+            },
+            {
+              "id": "45eb177d-1603-41b4-9941-d6733ad9d1ab",
+              "name": "toEmail",
+              "value": "err@example.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        128
+      ],
+      "id": "6889d5e7-a36c-4239-9d17-7fc240cdd3e0",
+      "name": "Config"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.toEmail }}",
+        "subject": "=Error trigger from {{ $('Error Trigger').item.json.workflow.name }}",
+        "message": "=# Error Trigger <br>\n## execution <br>\n- id: {{ $('Error Trigger').item.json.execution.id }} <br>\n- url: {{ $('Error Trigger').item.json.execution.url }} <br>\n- retryOf: {{ $('Error Trigger').item.json.execution.retryOf }} <br>\n## error <br>\n- message: {{ $('Error Trigger').item.json.execution.error.message }} <br>\n- stack: {{ $('Error Trigger').item.json.execution.error.stack }} <br>\nlastNodeExecuted: {{ $('Error Trigger').item.json.execution.lastNodeExecuted }} <br>\nmode: {{ $('Error Trigger').item.json.execution.mode }} <br>\n## workflow <br>\nid: {{ $('Error Trigger').item.json.workflow.id }} <br>\nname: {{ $('Error Trigger').item.json.workflow.name }} <br>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        224
+      ],
+      "id": "ba3028a3-ef84-4caa-8109-55c4d51236e0",
+      "name": "SendEmail",
+      "webhookId": "886cb698-3a17-418d-aed6-692df83d3868",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JTRl4sLTqsN1p3tj",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "=url",
+              "value": "={{ $('Error Trigger').item.json.execution.url }}"
+            },
+            {
+              "key": "errorMsg",
+              "value": "={{ $('Error Trigger').item.json.execution.error.message }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        256,
+        224
+      ],
+      "id": "a4b615d5-096c-4eea-8d72-5c8671dc4649",
+      "name": "ExecutionData"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4bf42bc8-da6b-4293-8d33-709a2b13cb3e",
+              "name": "msg",
+              "value": "={{ (`${$json.level} WF:${$json.wfId} ${$json.wfName}... EX:${$json.execId} ERR:${$json.err}`).slice(0, 160 ) }}",
+              "type": "string"
+            },
+            {
+              "id": "a94f18e7-53f3-4f57-b95c-ddc2a9d96f92",
+              "name": "msgLen",
+              "value": "={{ (`${$json.level} WF:${$json.wfId} ${$json.wfName}... EX:${$json.execId} ERR:${$json.err}`).slice(0, 160 ).length }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        32
+      ],
+      "id": "ef9298e0-83b7-409c-b7c6-319edc860eef",
+      "name": "MsgSMSTemplate"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.smsapi.pl/sms.do",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "={{ $('Config').item.json.fromName }}"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Config').item.json.toPhone }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.msg }}"
+            },
+            {
+              "name": "format",
+              "value": "json"
+            },
+            {
+              "name": "normalize",
+              "value": "1"
+            },
+            {
+              "name": "details",
+              "value": "1"
+            },
+            {
+              "name": "test",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        256,
+        32
+      ],
+      "id": "07df757e-e51c-4cc8-b099-c538e5ca94eb",
+      "name": "SendSMS",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "7DilhzlucKA6l1QL",
+          "name": "SMSApi"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "MsgSMSTemplate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "SendEmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SendEmail": {
+      "main": [
+        [
+          {
+            "node": "ExecutionData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MsgSMSTemplate": {
+      "main": [
+        [
+          {
+            "node": "SendSMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c2165400-342f-4059-be81-df28fae8208d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f7370519bfe16b082c8a2020b2067176587e541316f1cad369391d74271e5e7"
+  },
+  "id": "fzMzNryA0mNEEqtJ",
+  "tags": []
+}
