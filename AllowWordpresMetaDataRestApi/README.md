@@ -1,4 +1,4 @@
-# Automatyczna Aktualizacja Yoast SEO w WordPress za pomocą n8n
+# Automatyczna aktualizacja meta danych w WordPress za pomocą n8n na przykładzie Yoast SEO
 
 Repozytorium to zawiera kompletny zestaw narzędzi i instrukcji do automatycznej aktualizacji pól meta (tytuł i opis) oraz fragmentu (excerpt) z wtyczki **Yoast SEO** w WordPress, wykorzystując do tego **REST API** oraz platformę do automatyzacji **n8n**.
 
