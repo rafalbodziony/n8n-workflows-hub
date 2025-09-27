@@ -1,6 +1,7 @@
-<?php 
-if ( ! function_exists( 'allowMetaDataRestApi' ) ) :
-    function allowMetaDataRestApi() {
+<?php // --- IGNORE --- 
+if (! function_exists('allowMetaDataRestApi')) :
+    function allowMetaDataRestApi()
+    {
         // Rejestracja pól dla standardowych Wpisów
         register_meta('post', '_yoast_wpseo_title', [
             'type' => 'string',
@@ -14,14 +15,16 @@ if ( ! function_exists( 'allowMetaDataRestApi' ) ) :
             'show_in_rest' => true,
         ]);
 
-        // Rejestracja pól dla niestandardowego typu wpisu 'sk_aktualnosci'
-        register_meta('sk_aktualnosci', '_yoast_wpseo_title', [
+        /** UWAGA! Rejestracja pól dla niestandardowego typu wpisu np. 'nckl_aktualnosci'
+         *  Dodaj tylko jeśli chcesz udostępnić te pola w REST API dla tego konkretnego typu wpisu (Custom Post Type).
+         */
+        register_meta('nckl_aktualnosci', '_yoast_wpseo_title', [
             'type' => 'string',
             'single' => true,
             'show_in_rest' => true,
         ]);
 
-        register_meta('sk_aktualnosci', '_yoast_wpseo_metadesc', [
+        register_meta('nckl_aktualnosci', '_yoast_wpseo_metadesc', [
             'type' => 'string',
             'single' => true,
             'show_in_rest' => true,
@@ -30,5 +33,3 @@ if ( ! function_exists( 'allowMetaDataRestApi' ) ) :
 endif;
 
 add_action('init', 'allowMetaDataRestApi');
-
-?>
