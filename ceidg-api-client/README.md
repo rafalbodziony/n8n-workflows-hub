@@ -6,9 +6,9 @@ This is a client library for accessing the CEIDG API (Central Registration and I
 
 To install the CEIDG API Client, use npm:
 
-```bash
+<!-- ```bash
 npm install ceidg-api-client
-```
+``` -->
 
 ## Usage
 
