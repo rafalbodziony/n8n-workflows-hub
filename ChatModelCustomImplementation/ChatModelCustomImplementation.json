@@ -1,0 +1,95 @@
+{
+  "name": "ChatModelCustomImplementation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        368,
+        -304
+      ],
+      "id": "de958fa3-c475-4af0-a727-990e76aa172d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Ile to 2+5?\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        592,
+        -304
+      ],
+      "id": "95f4a152-1e1c-4adc-ba08-8f4d5eaf5878",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "code": {
+          "supplyData": {
+            "code": "// Import klienta czatu OpenAI z pakietu LangChain\nconst { ChatOpenAI } = require(\"@langchain/openai\");\n\n// Ustawienia konfiguracji (stałe zapisane DUŻYMI LITERAMI)\nconst OPENAI_API_KEY = \"\"; // klucz API do OpenAI\nconst MODEL_NAME = \"gpt-4.1-mini\";         // nazwa modelu LLM\nconst TEMPERATURE = 0.8;              // współczynnik kreatywności/losowości (0 = deterministyczny, 1 = maksymalnie kreatywny)\n\n// Obsługa błędu braku klucza\nif (!OPENAI_API_KEY) {\n  throw new Error(\"Brak klucza API OpenAI. Ustaw OPENAI_API_KEY powyżej.\");\n}\n\n// Inicjalizacja instancji ChatOpenAI (obiekt zgodny z LangChain ChatModel)\nconst llm = new ChatOpenAI({\n  apiKey: OPENAI_API_KEY,  // klucz API (wymagany)\n  model: MODEL_NAME,        // model, np. \"gpt-4.1\" lub \"gpt-4o-mini\"\n  temperature: TEMPERATURE, // kontrola kreatywności/entropii odpowiedzi\n  // można dodać inne opcje np. maxTokens, streaming, topP, frequencyPenalty, presencePenalty\n});\n\n// W n8n LangChainCode należy zwrócić obiekt LLM, chain lub tool.\n// Tutaj zwracamy instancję modelu LLM, aby n8n mógł z niej korzystać.\nreturn llm;\n"
+          }
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "ai_languageModel"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "typeVersion": 1,
+      "position": [
+        608,
+        -96
+      ],
+      "id": "3a683dae-24b6-4c10-977b-d6f0279ab9e7",
+      "name": "LangChainCodeModelConnector"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        []
+      ]
+    },
+    "LangChainCodeModelConnector": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a3d54436-757a-49b2-abd1-80385e4eff01",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f7370519bfe16b082c8a2020b2067176587e541316f1cad369391d74271e5e7"
+  },
+  "id": "MAgDkO8L2NnasYFG",
+  "tags": []
+}
