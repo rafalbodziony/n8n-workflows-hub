@@ -63,13 +63,6 @@ const TEMPERATURE = 0.8;
 
 ---
 
-## Linki
-
-* [Artykuł opisujący rozwiązanie](https://kingweb.me/blog/poradniki/rozwiazanie-problemu-request-timed-out-w-selektorze-modeli-n8n)
-* [Repozytorium z workflow](https://github.com/rafalbodziony/n8n-workflows-hub/tree/main/ChatModelCustomImplementation)
-
----
-
 Aby uruchomić:
 
 1. Zaimportuj plik `ChatModelCustomImplementation.json` do n8n.
@@ -77,7 +70,22 @@ Aby uruchomić:
 3. Wklej swój **OPENAI_API_KEY**.
 4. Uruchom workflow przyciskiem *Execute workflow*.
 
+---
+
+## Linki
+
+* [Artykuł opisujący rozwiązanie](https://kingweb.me/blog/poradniki/rozwiazanie-problemu-request-timed-out-w-selektorze-modeli-n8n)
+* [Repozytorium z workflow](https://github.com/rafalbodziony/n8n-workflows-hub/tree/main/ChatModelCustomImplementation)
+
+### Dokumentacja:
+
+* [LangChain Code node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.code/)
+* [LangChain ChatOpenAI](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html)
+* [LangChain Model Docs](https://docs.langchain.com/oss/python/langchain/models)
+* [n8n Issue #11886](https://github.com/n8n-io/n8n/issues/11886)
+
 --- 
+
 #### 📜 Licencja
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
