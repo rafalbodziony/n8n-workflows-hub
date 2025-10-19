@@ -49,6 +49,21 @@
       ],
       "id": "3a683dae-24b6-4c10-977b-d6f0279ab9e7",
       "name": "LangChainCodeModelConnector"
+    },
+    {
+      "parameters": {
+        "content": "Workflow tworzy własny węzeł połączenia z modelem OpenAI (`LangChainCodeModelConnector`), który zastępuje standardowy węzeł selektora modeli OpenAI.\n\n## Wymagania\n- Klucz API OpenAI (konto wymagane)\n\n### Korzystanie:\n1. Otwórz węzeł **LangChainCodeModelConnector**.\n2. Wklej swój **OPENAI_API_KEY**.\n3. Uruchom workflow przyciskiem *Execute workflow*.\n\n\nCopyright (c) 2025 Rafał Bodziony @ kingweb.pl | kingweb.me",
+        "height": 528,
+        "width": 384
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -256
+      ],
+      "id": "7f5865e7-cd37-48b3-b788-d16315bc12e1",
+      "name": "Sticky Note"
     }
   ],
   "pinData": {},
@@ -85,7 +100,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a3d54436-757a-49b2-abd1-80385e4eff01",
+  "versionId": "217c6252-58c4-45c2-9c01-9f605d5e39db",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "0f7370519bfe16b082c8a2020b2067176587e541316f1cad369391d74271e5e7"
